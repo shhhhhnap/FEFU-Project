@@ -1,0 +1,1 @@
+from . import domotekhnika_parser, dvsota_parser

@@ -1,14 +1,13 @@
-from bot_keyboard.kb import get_keyboard
+from keyboards.builerds_kb import get_keyboard
 
 from aiogram.filters import F
 from aiogram import Router, Message
 
-from filter.chat_types import ChatTypeFilter, IsAdmin
-from handlers.admin_private import admin_private_router
+from filters.chat_types import ChatTypeFilter, IsAdmin
 
 
 admin_private_router = Router()
-admin_router.message.filter(ChatTypeFilter(['private']), IsAdmin())
+admin_private_router.message.filter(ChatTypeFilter(['private']), IsAdmin())
 
 # Set up the admin routes
 admin_KB = get_keyboard(
