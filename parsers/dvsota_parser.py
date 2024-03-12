@@ -18,5 +18,3 @@ def dvsota(url: str):
     return req.status_code
 
 
-print(dvsota(
-    'https://dvsota.ru/catalog/smartfony/iphone/iphone-14-pro/18572-smartfon-apple-iphone-14-pro-2-sim-1tb-deep-purple'))
