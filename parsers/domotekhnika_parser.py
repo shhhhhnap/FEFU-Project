@@ -23,4 +23,3 @@ def domotekhnika(url):
     return req.status_code
 
 
-print(domotekhnika('https://domotekhnika.ru/product/teplovaya-pushka-ballu-bhg-40/reviews'))
