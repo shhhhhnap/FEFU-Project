@@ -20,10 +20,3 @@ functions_kb = ReplyKeyboardMarkup(keyboard=[
     ]
 ], resize_keyboard=True
 )
-
-shops_kb = ReplyKeyboardMarkup(keyboard=[
-    [
-        KeyboardButton(text='DNS'),
-        KeyboardButton(text='DVSOTA'),
-    ]
-])

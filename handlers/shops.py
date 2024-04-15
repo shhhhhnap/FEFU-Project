@@ -7,7 +7,6 @@ from parsers.dvsota  import dvsota_parser
 from parsers.domotekhnika import domotekhnika_parser
 from botbd.bd import BotDB
 
-from keyboards.reply_kb import shops_kb
 
 shops_private_router = Router()
 
@@ -25,16 +24,17 @@ async def shop(message: Message, state: FSMContext):
     await message.answer(f'Товар успешно принят в обработку!')
     shop_name = data.get('url')
     try:
-        if shop_name.startswith('https://dvsota.ru/'):
-            product_name, product_price = dvsota_parser(shop_name)
-            db.cursor.execute("INSERT INTO usersTG(telegramID, product_name, product_price) VALUES (?, ?, ?)", (message.from_user.id, product_name, product_price))
-            db.conn.commit()
-            await message.answer(f'Товар "{product_name}" успешно добавлен!')
-        elif shop_name.startswith('https://domotekhnika.ru/'):
-            product_name, product_price = domotekhnika_parser(shop_name)
-            db.cursor.execute("INSERT INTO usersTG(telegramID, product_name, product_price) VALUES (?, ?, ?)", (message.from_user.id, product_name, product_price))
-            db.conn.commit()
-            await message.answer(f'Товар "{product_name}" успешно добавлен!')
+        if not(db.product_exists(shop_name)): 
+            if shop_name.startswith('https://dvsota.ru/'):
+                product_name, product_price = dvsota_parser(shop_name)
+                db.add_product(message.from_user.id, product_name, product_price, shop_name)
+                await message.answer(f'Товар "{product_name}" успешно добавлен!')
+            elif shop_name.startswith('https://domotekhnika.ru/'):
+                product_name, product_price = domotekhnika_parser(shop_name)
+                db.add_product(message.from_user.id, product_name, product_price, shop_name)
+                await message.answer(f'Товар "{product_name}" успешно добавлен!')
+        else:
+            await message.answer(f'Такой товар уже отслеживается!')
     except:
         await message.answer(f'Ошибка при добавлении товара "{shop_name}"')
     await state.clear()
